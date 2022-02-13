@@ -32,10 +32,10 @@ class ViewController: UIViewController {
     
     let shapeView: UIImageView = {
         let imageView = UIImageView()
-        imageView.alpha = 0.1
-        imageView.layer.shadowRadius = 1
+        imageView.alpha = 1
+        imageView.layer.shadowRadius = 5
         imageView.layer.shadowColor = UIColor.black.cgColor
-        imageView.layer.shadowOpacity = 1
+        imageView.layer.shadowOpacity = 0.3
         let image = UIImage(named: "ellipse")
         imageView.image = image
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +44,6 @@ class ViewController: UIViewController {
     
     let shapeLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
-        
         return layer
     }()
     
@@ -58,6 +57,10 @@ class ViewController: UIViewController {
         return button
     }()
     
+    var timer = Timer()
+    
+    var durationTimer = 10
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -65,10 +68,54 @@ class ViewController: UIViewController {
         view.addSubview(timerLabel)
         view.addSubview(shapeView)
         view.addSubview(startButton)
+        setLayout()
+        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+        timerLabel.text = "10"
         
     }
 
     override func viewDidLayoutSubviews() {
+        self.animationCircular()
+    }
+}
+
+extension ViewController {
+    
+    @objc func startButtonTapped() {
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+    }
+    
+    @objc func timerAction() {
+        
+        durationTimer -= 1
+        timerLabel.text = "\(durationTimer)"
+        if durationTimer == 0 {
+            timer.invalidate()
+            durationTimer = 10
+            timerLabel.text = "10"
+        }
+    }
+    
+    // MARK: - Animation
+    
+    func animationCircular() {
+        let center = CGPoint(x: shapeView.frame.width / 2, y: shapeView.frame.height / 2 )
+        let endAngle = (-CGFloat.pi / 2)
+        let startAngle = 2 * CGFloat.pi + endAngle
+        
+        let circularPath = UIBezierPath(arcCenter: center, radius: 138, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+        
+        shapeLayer.path = circularPath.cgPath
+        shapeLayer.lineWidth = 35
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeEnd = 0
+        shapeLayer.lineCap = .round
+        shapeLayer.strokeColor = UIColor.systemGreen.cgColor
+        shapeView.layer.addSublayer(shapeLayer)
+    }
+    
+    func setLayout() {
         NSLayoutConstraint.activate([
             nameAppLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             nameAppLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -93,4 +140,5 @@ class ViewController: UIViewController {
         ])
     }
 }
+
 
