@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     let nameAppLabel: UILabel = {
         let label = UILabel()
         label.text = "Timer"
@@ -82,8 +82,10 @@ class ViewController: UIViewController {
 extension ViewController {
     
     @objc func startButtonTapped() {
-        
+        setBasicAnimation()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        startButton.isEnabled = false
+        
     }
     
     @objc func timerAction() {
@@ -94,6 +96,7 @@ extension ViewController {
             timer.invalidate()
             durationTimer = 10
             timerLabel.text = "10"
+            startButton.isEnabled = true
         }
     }
     
@@ -104,17 +107,29 @@ extension ViewController {
         let endAngle = (-CGFloat.pi / 2)
         let startAngle = 2 * CGFloat.pi + endAngle
         
-        let circularPath = UIBezierPath(arcCenter: center, radius: 138, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+        let circularPath = UIBezierPath(arcCenter: center,
+                                        radius: 131,
+                                        startAngle: startAngle,
+                                        endAngle: endAngle,
+                                        clockwise: false)
         
         shapeLayer.path = circularPath.cgPath
-        shapeLayer.lineWidth = 35
+        shapeLayer.lineWidth = 23
         shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.strokeEnd = 0
+        shapeLayer.strokeEnd = 1
         shapeLayer.lineCap = .round
         shapeLayer.strokeColor = UIColor.systemGreen.cgColor
         shapeView.layer.addSublayer(shapeLayer)
     }
     
+    func setBasicAnimation() {
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.duration = CFTimeInterval(durationTimer)
+        animation.toValue = 0
+        animation.fillMode = .forwards
+        animation.isRemovedOnCompletion = true
+        shapeLayer.add(animation, forKey: nil)
+    }
     func setLayout() {
         NSLayoutConstraint.activate([
             nameAppLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
