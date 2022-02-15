@@ -4,7 +4,7 @@
 //
 //  Created by Duxxless on 12.02.2022.
 //
-
+import SnapKit
 import UIKit
 
 class ViewController: UIViewController {
@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         label.textColor = .black
         
         label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
+        
         return label
     }()
     
@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 80)
         label.textColor = .black
         label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
+        
         return label
     }()
     
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         imageView.layer.shadowOpacity = 0.3
         let image = UIImage(named: "ellipse")
         imageView.image = image
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         return imageView
     }()
     
@@ -53,7 +53,7 @@ class ViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
         button.backgroundColor = .darkText
         button.layer.cornerRadius = 20
-        button.translatesAutoresizingMaskIntoConstraints = false
+        
         return button
     }()
     
@@ -114,8 +114,9 @@ extension ViewController {
                                         clockwise: false)
         
         shapeLayer.path = circularPath.cgPath
+        
         shapeLayer.lineWidth = 23
-        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.fillColor = .none
         shapeLayer.strokeEnd = 1
         shapeLayer.lineCap = .round
         shapeLayer.strokeColor = UIColor.systemGreen.cgColor
@@ -131,28 +132,31 @@ extension ViewController {
         shapeLayer.add(animation, forKey: nil)
     }
     func setLayout() {
-        NSLayoutConstraint.activate([
-            nameAppLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            nameAppLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        
+        nameAppLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(80)
+            make.centerX.equalToSuperview()
+        }
             
-            timerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            timerLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        timerLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        
+        shapeView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.width.equalTo(300)
+            make.height.equalTo(300)
+        }
+        
+        
+        startButton.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(100)
+            make.bottom.equalToSuperview().inset(view.bounds.width / 6)
+            make.height.equalTo(60)
             
-            shapeView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            shapeView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            shapeView.widthAnchor.constraint(equalToConstant: 300),
-            shapeView.heightAnchor.constraint(equalToConstant: 300),
-            
-            shapeView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            shapeView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            shapeView.widthAnchor.constraint(equalToConstant: 300),
-            shapeView.heightAnchor.constraint(equalToConstant: 300),
-            
-            startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80),
-            startButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            startButton.widthAnchor.constraint(equalToConstant: 170),
-            startButton.heightAnchor.constraint(equalToConstant: 60)
-        ])
+        }
     }
 }
 
