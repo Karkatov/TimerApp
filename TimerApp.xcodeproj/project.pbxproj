@@ -14,6 +14,7 @@
 		FA13AF3627B84C7400E73788 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA13AF3427B84C7400E73788 /* Main.storyboard */; };
 		FA13AF3827B84C7600E73788 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA13AF3727B84C7600E73788 /* Assets.xcassets */; };
 		FA13AF3B27B84C7600E73788 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA13AF3927B84C7600E73788 /* LaunchScreen.storyboard */; };
+		FA6C5C6D27BEE24600F85317 /* ExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6C5C6C27BEE24600F85317 /* ExtensionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		FA13AF3727B84C7600E73788 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA13AF3A27B84C7600E73788 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA13AF3C27B84C7600E73788 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA6C5C6C27BEE24600F85317 /* ExtensionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +50,6 @@
 				86C0FF5FB4BBD9878305FFE4 /* Pods-TimerApp.debug.xcconfig */,
 				BA112E56E4EE75DA9EEB48AC /* Pods-TimerApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -84,6 +85,7 @@
 				FA13AF2E27B84C7400E73788 /* AppDelegate.swift */,
 				FA13AF3027B84C7400E73788 /* SceneDelegate.swift */,
 				FA13AF3227B84C7400E73788 /* ViewController.swift */,
+				FA6C5C6C27BEE24600F85317 /* ExtensionViewController.swift */,
 				FA13AF3427B84C7400E73788 /* Main.storyboard */,
 				FA13AF3727B84C7600E73788 /* Assets.xcassets */,
 				FA13AF3927B84C7600E73788 /* LaunchScreen.storyboard */,
@@ -207,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA6C5C6D27BEE24600F85317 /* ExtensionViewController.swift in Sources */,
 				FA13AF3327B84C7400E73788 /* ViewController.swift in Sources */,
 				FA13AF2F27B84C7400E73788 /* AppDelegate.swift in Sources */,
 				FA13AF3127B84C7400E73788 /* SceneDelegate.swift in Sources */,

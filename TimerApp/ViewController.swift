@@ -76,6 +76,7 @@ class ViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         self.animationCircular()
+        
     }
 }
 
@@ -93,6 +94,7 @@ extension ViewController {
         durationTimer -= 1
         timerLabel.text = "\(durationTimer)"
         if durationTimer == 0 {
+            self.setAlert()
             timer.invalidate()
             durationTimer = 10
             timerLabel.text = "10"
