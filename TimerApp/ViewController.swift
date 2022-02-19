@@ -7,6 +7,7 @@
 import SnapKit
 import UIKit
 import Spring
+import AudioToolbox
 
 class ViewController: UIViewController {
     let secondView = UIView()
@@ -47,6 +48,14 @@ class ViewController: UIViewController {
     let time: [Int] = {
         var time = [Int]()
         for sec in 1...60 {
+           time += [sec]
+        }
+        return time
+    }()
+    
+    let hours: [Int] = {
+        var time = [Int]()
+        for sec in 0...23 {
            time += [sec]
         }
         return time
@@ -120,6 +129,7 @@ extension ViewController {
             startButton.animation = "squeezeUp"
             startButton.delay = 0.3
             startButton.duration = 1
+            AudioServicesPlaySystemSound(1000)
             startButton.animate()
         }
     }
@@ -212,7 +222,6 @@ extension ViewController {
     @objc func editValueTimer() {
         print("Tap")
         let picker = UIPickerView()
-        picker.contentMode = .bottom
         picker.tintColor = .black
         picker.delegate = self
         picker.dataSource = self
