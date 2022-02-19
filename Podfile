@@ -9,4 +9,6 @@ target 'TimerApp' do
 
 pod 'SnapKit'
 
+pod 'Spring', :git => 'https://github.com/MengTo/Spring.git'
+
 end

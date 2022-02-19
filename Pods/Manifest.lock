@@ -1,16 +1,28 @@
 PODS:
   - SnapKit (5.0.1)
+  - Spring (1.0.6)
 
 DEPENDENCIES:
   - SnapKit
+  - Spring (from `https://github.com/MengTo/Spring.git`)
 
 SPEC REPOS:
   trunk:
     - SnapKit
 
+EXTERNAL SOURCES:
+  Spring:
+    :git: https://github.com/MengTo/Spring.git
+
+CHECKOUT OPTIONS:
+  Spring:
+    :commit: 50d92a5b9e08848387ae95bf44c6ad20834f7083
+    :git: https://github.com/MengTo/Spring.git
+
 SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  Spring: 3d113f14575ef79aec9c5f906dfa4f5001c03254
 
-PODFILE CHECKSUM: 9da3f7f71fe4fd4017a484fb6049e882cecf2bef
+PODFILE CHECKSUM: f1ac96bbd3eb3a771b0ae80271343cf6be59f1d5
 
 COCOAPODS: 1.11.2
