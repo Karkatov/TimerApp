@@ -111,7 +111,6 @@ extension ViewController {
         self.animateButton()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
         startButton.isEnabled = false
-        
     }
     
     @objc func timerAction() {
@@ -155,7 +154,6 @@ extension ViewController {
         shapeLayer.lineCap = .round
         shapeLayer.strokeColor = UIColor.systemGreen.cgColor
         shapeView.layer.addSublayer(shapeLayer)
-        
     }
     
     func setBasicAnimation() {
@@ -166,6 +164,7 @@ extension ViewController {
         animation.isRemovedOnCompletion = true
         shapeLayer.add(animation, forKey: nil)
     }
+    
     func setLayout() {
         
         nameAppLabel.snp.makeConstraints { make in
@@ -185,19 +184,16 @@ extension ViewController {
             make.height.equalTo(300)
         }
         
-        
         startButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(100)
             make.bottom.equalToSuperview().inset(view.bounds.width / 6)
             make.height.equalTo(60)
-            
         }
     }
     func animateButton() {
         
         UIView.animate(withDuration: 0.6) {
             self.startButton.frame.origin.y -= self.startButton.frame.height - 200
-            
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
             self.startButton.isHidden = true
@@ -237,9 +233,8 @@ extension ViewController {
         secondView.addSubview(textField)
         textField.inputView = picker
         textField.becomeFirstResponder()
-        //textField.inputAccessoryView = toolbarpicker
-        
     }
+    
     @objc func pressDone() {
         self.view.endEditing(true)
     }

@@ -7,10 +7,7 @@
 
 import UIKit
 
-
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
-    
-    
     
     func setAlert() {
         
