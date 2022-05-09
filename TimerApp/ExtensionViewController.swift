@@ -10,7 +10,6 @@ import UIKit
 extension ViewController: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     func setAlert() {
-        
         let alert = UIAlertController(title: "Время истекло!", message: nil, preferredStyle: .alert)
         
         let alertAction = UIAlertAction(title: "ОК", style: .cancel) { _ in
