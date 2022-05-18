@@ -44,23 +44,6 @@ class ViewController: UIViewController {
         
         return imageView
     }()
-    
-    let time: [Int] = {
-        var time = [Int]()
-        for sec in 1...60 {
-           time += [sec]
-        }
-        return time
-    }()
-    
-    let hours: [Int] = {
-        var time = [Int]()
-        for sec in 0...23 {
-           time += [sec]
-        }
-        return time
-    }()
-    
     let shapeLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         return layer
@@ -76,8 +59,10 @@ class ViewController: UIViewController {
         return button
     }()
     
+    var hour: Int = 0
+    var minutes: Int = 0
+    var seconds: Int = 0
     var timer = Timer()
-    
     var durationTimer = 10
     
     override func viewDidLoad() {
@@ -97,7 +82,7 @@ class ViewController: UIViewController {
         self.animationCircular()
         startButton.animation = "fadeIn"
         startButton.delay = 0.3
-        startButton.duration = 1
+        startButton.duration = 2
         startButton.animate()
     }
 }
@@ -127,7 +112,7 @@ extension ViewController {
             self.startButton.isHidden = false
             startButton.animation = "squeezeUp"
             startButton.delay = 0.3
-            startButton.duration = 1
+            startButton.duration = 2.2
             AudioServicesPlaySystemSound(1000)
             startButton.animate()
         }
@@ -218,17 +203,13 @@ extension ViewController {
     @objc func editValueTimer() {
         print("Tap")
         let picker = UIPickerView()
-        picker.tintColor = .black
         picker.delegate = self
         picker.dataSource = self
-        
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: .none, action: #selector(pressDone))
         toolbar.setItems([.flexibleSpace(), doneButton,], animated: true)
         textField.inputAccessoryView = toolbar
-        
-        textField.delegate = self
         textField.isHidden = true
         secondView.addSubview(textField)
         textField.inputView = picker
@@ -237,6 +218,16 @@ extension ViewController {
     
     @objc func pressDone() {
         self.view.endEditing(true)
+    }
+    private func setAlert() {
+        let alert = UIAlertController(title: "Время истекло!", message: nil, preferredStyle: .alert)
+        
+        let alertAction = UIAlertAction(title: "ОК", style: .cancel) { _ in
+            print("Готово")
+        }
+        
+        alert.addAction(alertAction)
+        present(alert, animated: true)
     }
 }
 
