@@ -1,9 +1,5 @@
-//
-//  ViewController.swift
-//  TimerApp
-//
-//  Created by Duxxless on 12.02.2022.
-//
+
+
 import SnapKit
 import UIKit
 import Spring
@@ -14,25 +10,19 @@ class ViewController: UIViewController {
     let textField = UITextField()
     let nameAppLabel: UILabel = {
         let label = UILabel()
-        label.text = "Timer"
+        label.text = "Таймер"
         label.font = UIFont.boldSystemFont(ofSize: 40)
         label.textColor = .black
-        
-        label.textAlignment = .center
-        
         return label
     }()
-    
-    let timerLabel: UILabel = {
+    var secondLabel: UILabel = {
         let label = UILabel()
         label.text = "0"
         label.font = UIFont.boldSystemFont(ofSize: 80)
         label.textColor = .black
         label.textAlignment = .center
-        
         return label
     }()
-    
     let shapeView: UIImageView = {
         let imageView = UIImageView()
         imageView.alpha = 1
@@ -41,56 +31,47 @@ class ViewController: UIViewController {
         imageView.layer.shadowOpacity = 0.3
         let image = UIImage(named: "ellipse")
         imageView.image = image
-        
         return imageView
     }()
     let shapeLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         return layer
     }()
-    
     let startButton: SpringButton = {
-        let button = SpringButton(type: .custom)
-        button.setTitle("START", for: .normal)
+        let button = SpringButton(type: .system)
+        button.setTitle("Старт", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-        button.backgroundColor = .darkText
+        button.tintColor = .white
+        button.backgroundColor = .systemGreen
         button.layer.cornerRadius = 20
-        
+        button.layer.shadowColor = UIColor.systemGray.cgColor
+        button.layer.shadowOffset = CGSize(width: 0, height: 0)
+        button.layer.shadowRadius = 5
+        button.layer.shadowOpacity = 1
         return button
     }()
-    
-    var hour: Int = 0
-    var minutes: Int = 0
-    var seconds: Int = 0
     var timer = Timer()
-    var durationTimer = 10
+    var durationTimer = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        view.addSubview(nameAppLabel)
-        view.addSubview(timerLabel)
-        view.addSubview(shapeView)
-        view.addSubview(startButton)
         setLayout()
-        
+        startButtonAnimate()
+        view.backgroundColor = .white
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
-        setImageViewTapped()
+        let tapGesture = UITapGestureRecognizer(target: self,action: #selector(editValueTimer))
+        secondView.addGestureRecognizer(tapGesture)
     }
     
     override func viewDidLayoutSubviews() {
         self.animationCircular()
-        startButton.animation = "fadeIn"
-        startButton.delay = 0.3
-        startButton.duration = 2
-        startButton.animate()
     }
 }
 
+// MARK: - Metods
 extension ViewController {
-    
     @objc func startButtonTapped() {
-        durationTimer = Int(timerLabel.text!)!
+        durationTimer = Int(secondLabel.text!)!
         guard durationTimer > 0 else { return }
         setBasicAnimation()
         self.animateButton()
@@ -99,40 +80,29 @@ extension ViewController {
     }
     
     @objc func timerAction() {
-        
-        durationTimer = Int(timerLabel.text!)!
+        durationTimer = Int(secondLabel.text!)!
         durationTimer -= 1
-        timerLabel.text = "\(durationTimer)"
+        secondLabel.text = "\(durationTimer)"
         if durationTimer == 0 {
             self.setAlert()
             timer.invalidate()
-            
             startButton.isEnabled = true
-            
             self.startButton.isHidden = false
-            startButton.animation = "squeezeUp"
-            startButton.delay = 0.3
-            startButton.duration = 2.2
             AudioServicesPlaySystemSound(1000)
-            startButton.animate()
+            startButtonAnimate()
         }
     }
     
-    // MARK: - Animation
-    
-    func animationCircular() {
+    private func animationCircular() {
         let center = CGPoint(x: shapeView.frame.width / 2, y: shapeView.frame.height / 2 )
         let endAngle = (-CGFloat.pi / 2)
         let startAngle = 2 * CGFloat.pi + endAngle
-        
         let circularPath = UIBezierPath(arcCenter: center,
                                         radius: 131,
                                         startAngle: startAngle,
                                         endAngle: endAngle,
                                         clockwise: false)
-        
         shapeLayer.path = circularPath.cgPath
-        
         shapeLayer.lineWidth = 23
         shapeLayer.fillColor = .none
         shapeLayer.strokeEnd = 1
@@ -141,7 +111,7 @@ extension ViewController {
         shapeView.layer.addSublayer(shapeLayer)
     }
     
-    func setBasicAnimation() {
+    private func setBasicAnimation() {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.duration = CFTimeInterval(durationTimer)
         animation.toValue = 0
@@ -150,33 +120,38 @@ extension ViewController {
         shapeLayer.add(animation, forKey: nil)
     }
     
-    func setLayout() {
+    private func setLayout() {
+        view.addSubview(nameAppLabel)
+        view.addSubview(secondLabel)
+        view.addSubview(shapeView)
+        view.addSubview(startButton)
+        view.addSubview(secondView)
         
         nameAppLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(80)
             make.centerX.equalToSuperview()
         }
-        
-        timerLabel.snp.makeConstraints { make in
+        secondLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
-        
         shapeView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
             make.width.equalTo(300)
             make.height.equalTo(300)
         }
-        
         startButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(100)
             make.bottom.equalToSuperview().inset(view.bounds.width / 6)
             make.height.equalTo(60)
         }
+        secondView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(200)
+        }
     }
-    func animateButton() {
-        
+    private func animateButton() {
         UIView.animate(withDuration: 0.6) {
             self.startButton.frame.origin.y -= self.startButton.frame.height - 200
         }
@@ -185,23 +160,7 @@ extension ViewController {
         }
     }
     
-    func setImageViewTapped() {
-
-        secondView.frame.size.width = 100
-        secondView.frame.size.height = 100
-        secondView.frame = CGRect(x: view.center.x - secondView.bounds.size.width/2,
-                                  y: view.center.y - secondView.bounds.size.height/2,
-                                  width: 100,
-                                  height: 100)
-        
-        view.addSubview(secondView)
-        let tapGesture = UITapGestureRecognizer(target: self,
-                                                action: #selector(editValueTimer))
-        secondView.addGestureRecognizer(tapGesture)
-    }
-    
     @objc func editValueTimer() {
-        print("Tap")
         let picker = UIPickerView()
         picker.delegate = self
         picker.dataSource = self
@@ -228,6 +187,13 @@ extension ViewController {
         
         alert.addAction(alertAction)
         present(alert, animated: true)
+    }
+    private func startButtonAnimate() {
+        startButton.animation = "squeezeUp"
+        startButton.delay = 0.3
+        startButton.duration = 1
+        startButton.damping = 1
+        startButton.animate()
     }
 }
 
